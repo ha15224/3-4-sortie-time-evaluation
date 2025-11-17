@@ -32,7 +32,7 @@ for j = 1:2
     end
     
     % count all attacks first, deduct DA and cv shelling
-    single = length(data(i).battles(j).data.api_hougeki1.api_at_list);
+    single = single + length(data(i).battles(j).data.api_hougeki1.api_at_list);
     for k = 1:length(data(i).battles(j).data.api_hougeki1.api_at_list)
         % tally first shelling
         if data(i).battles(j).data.api_hougeki1.api_at_eflag(k) == 1
@@ -50,6 +50,7 @@ for j = 1:2
     end
 
     if data(i).battles(j).data.api_hourai_flag(2) == 1
+        single = single + length(data(i).battles(j).data.api_hougeki2.api_at_list);
         for k = 1:length(data(i).battles(j).data.api_hougeki2.api_at_list)
             % tally second shelling
             if data(i).battles(j).data.api_hougeki2.api_at_eflag(k) == 1
@@ -74,20 +75,26 @@ for j = 1:2
 
 end
 
+tally(index).datano = i;
+
 tally(index).single = single;
 tally(index).DA = DA;
 tally(index).otorp = otorp;
 tally(index).ctorp = ctorp;
 tally(index).cvshell = cvshell;
 
-baseline = 180; % time of sortie excluding all attack aninmations
+baseline = 150; % time of sortie excluding all attack aninmations
 tally(index).time = baseline + [1.7 2.8 3.5 5.3 3.7]*[single;DA;otorp;ctorp;cvshell];
 
 end
 
 avgtime = mean([tally.time])
 
-
+avg_single = mean([tally.single]);
+avg_DA = mean([tally.DA]);
+avg_otorp = mean([tally.otorp]);
+avg_ctorp = mean([tally.ctorp]);
+avg_cvshell = mean([tally.cvshell]);
 
 
 
